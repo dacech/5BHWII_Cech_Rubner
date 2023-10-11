@@ -44,3 +44,5 @@ vertausche_zwei_index(liste, zufallszahl6, 39)
 letzte_sechs_zahlen = liste[39:45]
 letzte_sechs_zahlen.sort()
 print(letzte_sechs_zahlen)
+
+
