@@ -23,3 +23,4 @@ for i in range(5):
 
 letzte_fuenf_karten = pokerkarten[-5:]
 print(letzte_fuenf_karten)
+
