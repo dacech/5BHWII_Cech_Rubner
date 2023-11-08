@@ -1,5 +1,6 @@
-import random
+#Farben erkennen
 
+import random
 # Definition der Kartenwerte und Symbole
 kartenwerte = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 symbole = ['♠', '♥', '♦', '♣']
@@ -31,7 +32,7 @@ def ueberpruefe_pokerhand(hand):
             symbole_in_hand.add("Kreuz")
 
     if not symbole_in_hand:
-        return "Keine bekannten Symbole in der Hand"
+        return "Was hast du für eine Scheiße gebaut, damit du diese Fehlermeldung siehst?"
     else:
         ausgabe = "Sie haben "
         ausgabe += " und ".join(symbole_in_hand)
