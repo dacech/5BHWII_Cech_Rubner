@@ -24,7 +24,7 @@ def ueberpruefe_pokerhand(hand):
 
     # Zähle die Anzahl der Karten jedes Werts und wandele sie in numerische Werte um
     for karte in hand:
-        # Ermittle den Wert der Karte, indem der Index des Wertes in der Liste 'kartenwerte' gefunden wird (1-basiert)
+        # Ermittle den Wert der Karte, indem der Index des Wertes in der Liste 'kartenwerte' gefunden wird
         kartenwert = kartenwerte.index(karte[0]) + 1
         kartenwert_count[kartenwert] = kartenwert_count.get(kartenwert, 0) + 1
         kartenwert_list.append(kartenwert)
@@ -34,16 +34,17 @@ def ueberpruefe_pokerhand(hand):
 
     # Prüfe auf verschiedene Pokerhände in absteigender Reihenfolge der Handwertigkeit
 
+    #ROYAL FLUSH
+    #STAIGHT FLUSH
     if 4 in kartenwert_count.values():
         return "Vierling"
     elif 3 in kartenwert_count.values() and 2 in kartenwert_count.values():
         return "Full House"
-    elif 3 in kartenwert_count.values():
-        return "Drilling"
-    elif kartenwert_list == [1, 10, 11, 12, 13]:
-        return "Royal Flush"
+   #FLUSH
     elif kartenwert_list[-1] - kartenwert_list[0] == 4:
         return "Straight"
+    elif 3 in kartenwert_count.values():
+        return "Drilling"
     elif 2 in kartenwert_count.values() and len(set(kartenwert_list)) == 3:
         return "Zwei Paare"
     elif 2 in kartenwert_count.values():
@@ -59,5 +60,9 @@ for i in range(5):
     vertausche_zwei_index(pokerkarten, zufallsindex, len(pokerkarten) - 1 - i)
 
 print("Ihre Pokerhand: ", gezogene_karten)
+
+#test_royal_flush = ['10♠','11♠','12♠','13♠','1♠']
+#hand_text = ueberpruefe_pokerhand(test_royal_flush)
+
 hand_text = ueberpruefe_pokerhand(gezogene_karten)
 print("Sie haben einen", hand_text)

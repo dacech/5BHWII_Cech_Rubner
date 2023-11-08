@@ -1,6 +1,8 @@
-#Anzahl der Kombinationen
+#falsch!!!
 
 import random
+import matplotlib.pyplot as plt
+
 # Definition der Kartenwerte und Symbole
 kartenwerte = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 symbole = ['♠', '♥', '♦', '♣']
@@ -35,16 +37,17 @@ def ueberpruefe_pokerhand(hand):
 
     # Prüfe auf verschiedene Pokerhände in absteigender Reihenfolge der Handwertigkeit
 
+    # ROYAL FLUSH
+    # STAIGHT FLUSH
     if 4 in kartenwert_count.values():
         return "Vierling"
     elif 3 in kartenwert_count.values() and 2 in kartenwert_count.values():
         return "Full House"
-    elif 3 in kartenwert_count.values():
-        return "Drilling"
-    elif kartenwert_list == [1, 10, 11, 12, 13]:
-        return "Royal Flush"
+    # FLUSH
     elif kartenwert_list[-1] - kartenwert_list[0] == 4:
         return "Straight"
+    elif 3 in kartenwert_count.values():
+        return "Drilling"
     elif 2 in kartenwert_count.values() and len(set(kartenwert_list)) == 3:
         return "Zwei Paare"
     elif 2 in kartenwert_count.values():
@@ -57,16 +60,15 @@ def ueberpruefe_pokerhand(hand):
 ergebnisse = {
     "Vierling": 0,
     "Full House": 0,
-    "Drilling": 0,
-    "Royal Flush": 0,
     "Straight": 0,
-    "Paar": 0,
+    "Drilling": 0,
     "Zwei Paare": 0,
+    "Paar": 0,
     "High Card": 0
 }
 
-# Jetzt spielen wir das Spiel 1000 Mal
-for _ in range(1000000000):
+# Jetzt spielen wir das Spiel 1000 Mal und verfolgen die Ergebnisse
+for _ in range(1000):
     gezogene_karten = []
     for i in range(5):
         zufallsindex = generiere_zufallszahl(0, len(pokerkarten) - 1)
@@ -75,6 +77,18 @@ for _ in range(1000000000):
 
     hand_text = ueberpruefe_pokerhand(gezogene_karten)
     ergebnisse[hand_text] += 1
+
+# Erstelle ein Balkendiagramm, um die Häufigkeit der Pokerkombinationen anzuzeigen
+names = list(ergebnisse.keys())
+values = list(ergebnisse.values())
+
+plt.bar(names, values)
+plt.title('Häufigkeit der Pokerkombinationen')
+plt.ylabel('Häufigkeit')
+plt.xlabel('Pokerkombination')
+plt.xticks(rotation=45, ha='right')  # Hier drehen wir die x-Achse
+
+plt.show()
 
 # Ausgabe der Ergebnisse
 for kombination, anzahl in ergebnisse.items():
