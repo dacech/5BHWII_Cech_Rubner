@@ -1,6 +1,6 @@
-#Kombinationen erkennen
-
+#FALSCH
 import random
+
 # Definition der Kartenwerte und Symbole
 kartenwerte = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 symbole = ['♠', '♥', '♦', '♣']
@@ -21,37 +21,43 @@ def generiere_zufallszahl(minimum, maximum):
 def ueberpruefe_pokerhand(hand):
     kartenwert_count = {}  # Ein leeres Wörterbuch, um die Anzahl der Karten jedes Werts zu zählen
     kartenwert_list = []  # Eine leere Liste, um die Werte der Karten umzuwandeln und zu sortieren
+    symbole_count = {}  # Ein Wörterbuch, um die Anzahl der Karten jedes Symbols zu zählen
 
-    # Zähle die Anzahl der Karten jedes Werts und wandele sie in numerische Werte um
+    # Zähle die Anzahl der Karten jedes Werts und jedes Symbols und wandele die Werte in numerische Werte um
     for karte in hand:
         # Ermittle den Wert der Karte, indem der Index des Wertes in der Liste 'kartenwerte' gefunden wird
         kartenwert = kartenwerte.index(karte[0]) + 1
         kartenwert_count[kartenwert] = kartenwert_count.get(kartenwert, 0) + 1
         kartenwert_list.append(kartenwert)
 
+        # Zähle die Anzahl der Karten jedes Symbols
+        symbol = karte[1]
+        symbole_count[symbol] = symbole_count.get(symbol, 0) + 1
+
     # Sortiere die Kartenwerte in aufsteigender Reihenfolge
     kartenwert_list.sort()
 
     # Prüfe auf verschiedene Pokerhände in absteigender Reihenfolge der Handwertigkeit
-
-    #ROYAL FLUSH
-    #STAIGHT FLUSH
-    if 4 in kartenwert_count.values():
+    if 5 in symbole_count.values() and kartenwert_list[-1] - kartenwert_list[0] == 4 and kartenwert_list[-1] == 14:
+        return "Royal Flush"
+    elif 5 in symbole_count.values() and kartenwert_list[-1] - kartenwert_list[0] == 4:
+        return "Straight Flush"
+    elif 4 in kartenwert_count.values():
         return "Vierling"
     elif 3 in kartenwert_count.values() and 2 in kartenwert_count.values():
         return "Full House"
-    #FLUSH
+    elif 5 in symbole_count.values():
+        return "Flush"
     elif kartenwert_list[-1] - kartenwert_list[0] == 4:
         return "Straight"
     elif 3 in kartenwert_count.values():
         return "Drilling"
-    elif 2 in kartenwert_count.values() and len(set(kartenwert_list)) == 3: #?
+    elif 2 in kartenwert_count.values() and len(set(kartenwert_list)) == 3:
         return "Zwei Paare"
     elif 2 in kartenwert_count.values():
         return "Paar"
     else:
         return "High Card"
-
 
 # Ziehe 5 Pokerkarten zufällig
 gezogene_karten = []
@@ -61,17 +67,7 @@ for i in range(5):
     vertausche_zwei_index(pokerkarten, zufallsindex, len(pokerkarten) - 1 - i)
 
 print("Ihre Pokerhand: ", gezogene_karten)
-
-#test_royal_flush = ['10♠','11♠','12♠','13♠','1♠']
-#hand_text = ueberpruefe_pokerhand(test_royal_flush)
-
+#test_flush = ['9♣','10♣','J♣','K♣','A♣']
+#hand_text = ueberpruefe_pokerhand(test_flush)
 hand_text = ueberpruefe_pokerhand(gezogene_karten)
 print("Sie haben einen", hand_text)
-
-
-#def main():
-    #bla
-    #x=1
-    #bla
-#if __name__ == '__main___':
-#    main()

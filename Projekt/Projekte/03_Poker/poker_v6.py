@@ -1,6 +1,6 @@
-#Kombinationen erkennen
-
+#%-Werte (ohne Flush)
 import random
+
 # Definition der Kartenwerte und Symbole
 kartenwerte = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 symbole = ['♠', '♥', '♦', '♣']
@@ -10,8 +10,6 @@ pokerkarten = [wert + symbol for wert in kartenwerte for symbol in symbole]
 def vertausche_zwei_index(liste, index1, index2):
     if 0 <= index1 < len(liste) and 0 <= index2 < len(liste):
         liste[index1], liste[index2] = liste[index2], liste[index1]
-    else:
-        print("Ungültige Indexpositionen")
 
 # Methode, um eine Zufallszahl in einem bestimmten Bereich zu generieren
 def generiere_zufallszahl(minimum, maximum):
@@ -35,17 +33,18 @@ def ueberpruefe_pokerhand(hand):
     # Prüfe auf verschiedene Pokerhände in absteigender Reihenfolge der Handwertigkeit
 
     #ROYAL FLUSH
-    #STAIGHT FLUSH
+    #STRAIGHT FLUSH
+    #FLUSH
+
     if 4 in kartenwert_count.values():
         return "Vierling"
     elif 3 in kartenwert_count.values() and 2 in kartenwert_count.values():
         return "Full House"
-    #FLUSH
     elif kartenwert_list[-1] - kartenwert_list[0] == 4:
         return "Straight"
     elif 3 in kartenwert_count.values():
         return "Drilling"
-    elif 2 in kartenwert_count.values() and len(set(kartenwert_list)) == 3: #?
+    elif 2 in kartenwert_count.values() and len(set(kartenwert_list)) == 3:
         return "Zwei Paare"
     elif 2 in kartenwert_count.values():
         return "Paar"
@@ -53,25 +52,30 @@ def ueberpruefe_pokerhand(hand):
         return "High Card"
 
 
-# Ziehe 5 Pokerkarten zufällig
-gezogene_karten = []
-for i in range(5):
-    zufallsindex = generiere_zufallszahl(0, len(pokerkarten) - 1)
-    gezogene_karten.append(pokerkarten[zufallsindex])
-    vertausche_zwei_index(pokerkarten, zufallsindex, len(pokerkarten) - 1 - i)
+# Hier erstellen wir ein Wörterbuch, um die Häufigkeit der Pokerkombinationen zu verfolgen
+ergebnisse = {
+    "Vierling": 0,
+    "Full House": 0,
+    "Straight": 0,
+    "Drilling": 0,
+    "Zwei Paare": 0,
+    "Paar": 0,
+    "High Card": 0
+}
 
-print("Ihre Pokerhand: ", gezogene_karten)
+# Anzahl der Ziehungen
+anzahl_ziehungen = 1000
+for _ in range(anzahl_ziehungen):
+    gezogene_karten = []
+    for i in range(5):
+        zufallsindex = generiere_zufallszahl(0, len(pokerkarten) - 1)
+        gezogene_karten.append(pokerkarten[zufallsindex])
+        vertausche_zwei_index(pokerkarten, zufallsindex, len(pokerkarten) - 1 - i)
 
-#test_royal_flush = ['10♠','11♠','12♠','13♠','1♠']
-#hand_text = ueberpruefe_pokerhand(test_royal_flush)
+    hand_text = ueberpruefe_pokerhand(gezogene_karten)
+    ergebnisse[hand_text] += 1
 
-hand_text = ueberpruefe_pokerhand(gezogene_karten)
-print("Sie haben einen", hand_text)
-
-
-#def main():
-    #bla
-    #x=1
-    #bla
-#if __name__ == '__main___':
-#    main()
+# Ausgabe der Ergebnisse in Prozent
+for kombination, anzahl in ergebnisse.items():
+    prozentanteil = (anzahl / anzahl_ziehungen) * 100
+    print(f"{kombination}: {prozentanteil:.2f}%")
