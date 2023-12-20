@@ -64,7 +64,7 @@ ergebnisse = {
 }
 
 # Anzahl der Ziehungen
-anzahl_ziehungen = 1000
+anzahl_ziehungen = 100000
 for _ in range(anzahl_ziehungen):
     gezogene_karten = []
     for i in range(5):
