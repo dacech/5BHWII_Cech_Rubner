@@ -1,3 +1,4 @@
+#anpassung royal flush
 import random
 import functools
 import time
@@ -12,7 +13,6 @@ def vertausche_zwei_index(liste, index1, index2):
 def generiere_zufallszahl(minimum, maximum):
     return random.randint(minimum, maximum)
 def ueberpruefe_pokerhand(hand):
-
     kartenwert_count = {}
     kartenwert_list = []
     symbole_count = {}
@@ -27,7 +27,7 @@ def ueberpruefe_pokerhand(hand):
 
     kartenwert_list.sort()
 
-    if 5 in symbole_count.values() and sorted(kartenwert_list) == [10, 11, 12, 13, 14]:
+    if 5 in symbole_count.values() and kartenwert_list[-1] - kartenwert_list[0] == 4 and 14 in kartenwert_list:
         return "Royal Flush"
     elif 5 in symbole_count.values() and kartenwert_list[-1] - kartenwert_list[0] == 4:
         return "Straight Flush"
@@ -47,6 +47,7 @@ def ueberpruefe_pokerhand(hand):
         return "Paar"
     else:
         return "High Card"
+
 
 #timer
 def timer(func):
@@ -93,8 +94,7 @@ def main():
     for kombination, anzahl in ergebnisse.items():
         prozentanteil = (anzahl / anzahl_ziehungen) * 100
         print(f"{kombination}: {prozentanteil:.3f}%")
-    # Beispiel für eine Hand, die ein Royal Flush ist
-    royal_flush_hand = ['10♠', 'J♠', 'Q♠', 'K♠', 'A♠']
+
 
 
 if __name__ == "__main__":
