@@ -1,25 +1,18 @@
 from flask import Flask, render_template
-import sqlite3
 
 app = Flask(__name__)
+app.template_folder = 'templates'
 
-# Verbindung zur SQLite-Datenbank herstellen
-def connect_db():
-    return sqlite3.connect('spielersymbole.db')
-
-# Funktion zum Abrufen der Daten aus der Datenbank
-def get_data():
-    con = connect_db()
-    cur = con.cursor()
-    cur.execute("SELECT * FROM spielersymbole")
-    data = cur.fetchall()
-    con.close()
+# Funktion zum Lesen der Daten aus der Textdatei
+def read_data():
+    with open("anz.txt", "r") as file:
+        data = file.readline().strip().split()
     return data
 
-# Startseite anzeigen und Daten aus der Datenbank übergeben
+# Startseite anzeigen und Daten aus der Textdatei übergeben
 @app.route('/')
 def index():
-    data = get_data()
+    data = read_data()
     return render_template('index.html', data=data)
 
 if __name__ == '__main__':
